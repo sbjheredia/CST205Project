@@ -19,7 +19,7 @@ def home():
         and used to populate gallery_images here I think
 
         So we'd have the code to handle the forms and uploading of
-        the images here. maybe idk
+        the images here. maybe idkslacj
     '''
     return render_template('home.html')
 
