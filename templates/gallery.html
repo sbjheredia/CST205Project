@@ -8,10 +8,12 @@
     <body>
         <h1>Image Gallery</h1>
         
-        <!-- This is for funsies -->
-        <video width = "600" controls>
-            <source src="{{ url_for('static', filename='videos/letsgo.mp4') }}" type="video/mp4">
-        </video>
+
+        <ul>
+            {% for file in files %}
+            <li><img src="{{file.source}}">{{ file.title }}</img></li>
+            {% endfor %}
+        </ul>
 
         <a href="{{ url_for('home') }}"><p>Go back</p></a>
     </body>

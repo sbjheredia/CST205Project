@@ -5,10 +5,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Image Gallery Home</title>
 
-        {{ bootstrap.load_css() }}
     </head>
     <body>
         <h1>Create your own image gallery! </h1>
+
+        <h1>Upload Images</h1>
+        <form method="POST" action="/upload" enctype="multipart/form-data">
+            <input type="file" name="files" multiple>
+            <input type="submit" value="Upload">
+        </form>
 
         <a href="{{ url_for('gallery') }}"><p>Gallery Link</p></a>
     </body>
