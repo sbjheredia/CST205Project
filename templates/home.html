@@ -5,17 +5,38 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Image Gallery Home</title>
 
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            function uploadImage() {
+                var formData = new FormData();
+                var imageFile = document.getElementById("image").files[0];
+                formData.append("image", imageFile);
+
+                $.ajax({
+                    url: "{{ url_for('upload_image') }}",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        alert("Image uploaded successfully!");
+                        document.getElementById("image").value = ""; // Clear the input field
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Error uploading image: " + error);
+                    }
+                });
+            }
+        </script>
+
     </head>
     <body>
         <h1>Create your own image gallery! </h1>
 
         <h1>Upload Images</h1>
-        <form method="POST" action="/upload" enctype="multipart/form-data">
-            <input type="file" name="files" multiple>
-            <input type="submit" value="Upload">
-        </form>
 
-        <p>{{ message }}</p>
+        <input type="file" id="image" name="image" accept="image/jpeg,image/png" required>
+        <button type="button" onclick="uploadImage()">Upload</button>
 
         <a href="{{ url_for('gallery') }}"><p>Gallery Link</p></a>
     </body>
