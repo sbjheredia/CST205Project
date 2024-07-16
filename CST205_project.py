@@ -3,6 +3,7 @@ from flask_bootstrap import Bootstrap
 from random import shuffle
 from PIL import Image
 import os
+import shutil
 
 # test
 #boom test again
@@ -18,6 +19,12 @@ if not os.path.exists(UPLOAD_FOLDER):
 
 #images will go in this list
 gallery_images = []
+
+
+if os.path.exists(UPLOAD_FOLDER):
+    shutil.rmtree(UPLOAD_FOLDER)
+os.makedirs(UPLOAD_FOLDER)
+
 
 @app.route('/')
 def home():
@@ -50,7 +57,7 @@ def upload_files():
 
 
     
-    return render_template('gallery.html', files=gallery_images)
+    return render_template('home.html', message="Image Uploaded!")
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
@@ -59,7 +66,7 @@ def uploaded_file(filename):
 
 @app.route('/gallery')
 def gallery():
-    return render_template('gallery.html', images=gallery_images)
+    return render_template('gallery.html', files=gallery_images)
 
 
 class GalleryImage:
