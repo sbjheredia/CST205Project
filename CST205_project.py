@@ -52,6 +52,13 @@ def upload_image():
     if file and (file.filename.endswith('.jpg') or file.filename.endswith('.png')):
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
 
+        title = request.form['title']
+        description = request.form['description']
+        filter_option = request.form['filter']
+
+        print (title, description,filter_option)
+
+
         # TODO
         '''
             As it is now, the raw images the user uploads are placed into
@@ -80,6 +87,8 @@ def upload_image():
         return jsonify({'success': 'File uploaded successfully'}), 200
     else:
         return jsonify({'error': 'Invalid file type'}), 400
+    
+
 
 
 # This is so that the html page can properly source the image location

@@ -10,7 +10,17 @@
             function uploadImage() {
                 var formData = new FormData();
                 var imageFile = document.getElementById("image").files[0];
+                var title = document.getElementById("title").value;
+                var description = document.getElementById("description").value;
+                var filter = document.getElementById("filter").value;
+            
+
                 formData.append("image", imageFile);
+                formData.append("title", title);
+                formData.append("description", description);
+                formData.append("filter", filter);
+
+            
 
                 $.ajax({
                     url: "{{ url_for('upload_image') }}",
@@ -21,6 +31,9 @@
                     success: function (response) {
                         alert("Image uploaded successfully!");
                         document.getElementById("image").value = ""; // Clear the input field
+                        document.getElementById("title").value = ""; 
+                        document.getElementById("description").value = ""; 
+
                     },
                     error: function (xhr, status, error) {
                         alert("Error uploading image: " + error);
@@ -36,6 +49,22 @@
         <h1>Upload Images</h1>
 
         <input type="file" id="image" name="image" accept="image/jpeg,image/png" required>
+        <br>
+        <input type="text" id="title" name="title" placeholder="Title">
+        <br>
+        <textarea id="description" name="description" rows="4" cols="50" placeholder="Enter description here..."></textarea>
+        <br>
+        <label for="filter">Choose an image filter:</label>
+        <select id="filter" name="filter">
+            <option value="none">None</option>
+            <option value="grayscale">Grayscale</option>
+            <option value="sepia">Sepia</option>
+            <option value="invert">Invert</option>
+            <option value="brightness">Brightness</option>
+            <option value="contrast">Contrast</option>
+            <option value="blur">Blur</option>
+        </select>
+        <br>
         <button type="button" onclick="uploadImage()">Upload</button>
 
         <a href="{{ url_for('gallery') }}"><p>Gallery Link</p></a>
