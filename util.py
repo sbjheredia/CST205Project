@@ -48,8 +48,16 @@ def apply_filter(image, filter):
         filtered_image.putdata(pixel_rgb_list)
 
         return filtered_image
+    
+    elif filter == 'invert':
+        for p in image.getdata():
+            pixel_rgb_list.append((255-p[0], 255-p[1], 255-p[2]))
 
-        
+        filtered_image.putdata(pixel_rgb_list)
+
+        return filtered_image
+
+            
 
 
 def resize(image):
