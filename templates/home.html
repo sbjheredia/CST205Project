@@ -13,6 +13,7 @@
                 var title = document.getElementById("title").value;
                 var description = document.getElementById("description").value;
                 var filter = document.getElementById("filter").value;
+                
             
 
                 formData.append("image", imageFile);
@@ -33,12 +34,29 @@
                         document.getElementById("image").value = ""; // Clear the input field
                         document.getElementById("title").value = ""; 
                         document.getElementById("description").value = ""; 
+                        document.getElementById("preview").src = ""; 
+
 
                     },
                     error: function (xhr, status, error) {
                         alert("Error uploading image: " + error);
                     }
                 });
+            }
+
+            function previewImage() {
+                var file = document.getElementById("image").files[0];
+                var reader = new FileReader();
+
+                reader.onloadend = function () {
+                    document.getElementById("preview").src = reader.result;
+                }
+
+                if (file) {
+                    reader.readAsDataURL(file);
+                } else {
+                    document.getElementById("preview").src = "";
+                }
             }
         </script>
 
@@ -48,7 +66,7 @@
 
         <h1>Upload Images</h1>
 
-        <input type="file" id="image" name="image" accept="image/jpeg,image/png" required>
+        <input type="file" id="image" name="image" accept="image/jpeg,image/png" required onchange="previewImage()">
         <br>
         <input type="text" id="title" name="title" placeholder="Title">
         <br>
@@ -65,7 +83,10 @@
             <option value="blur">Blur</option>
         </select>
         <br>
+        <img id="preview" src="" style="max-width: 300px; max-height: 300px; display: block;">
+        <br>
         <button type="button" onclick="uploadImage()">Upload</button>
+
 
         <a href="{{ url_for('gallery') }}"><p>Gallery Link</p></a>
     </body>
