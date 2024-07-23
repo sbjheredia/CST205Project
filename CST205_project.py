@@ -2,8 +2,11 @@ from flask import Flask, render_template, request, redirect, url_for, send_from_
 from flask_bootstrap import Bootstrap
 from PIL import Image
 from util import fit
+from util import apply_filter as apply_preview_filter
 import os
 import shutil
+import base64
+from io import BytesIO
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
@@ -14,6 +17,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 #images will go in this list
 gallery_images = []
 
+
 # This function makes sure the uploads folder is primed
 def initialize_upload_folder():
     if not os.path.exists(UPLOAD_FOLDER):
@@ -22,6 +26,7 @@ def initialize_upload_folder():
         shutil.rmtree(UPLOAD_FOLDER)
         os.makedirs(UPLOAD_FOLDER)
 
+
 # Root url
 @app.route('/')
 def home():
@@ -29,6 +34,7 @@ def home():
     gallery_images = []
 
     return render_template('home.html')
+
 
 # Url for gallery. Renders gallery.html and gives it a list of images
 @app.route('/gallery')
@@ -67,6 +73,29 @@ def upload_image():
         return jsonify({'error': 'Invalid file type'}), 400
     
 
+# This deals with applying filters to the preview image
+@app.route('/apply_filter', methods=['POST'])
+def apply_filter():
+    if 'image_data' not in request.form:
+        return jsonify({'error': 'No image data'}), 400
+
+    image_data = request.form['image_data']
+    filter_type = request.form['filter']
+
+    image_data = image_data.split(",")[1]
+    image = Image.open(BytesIO(base64.b64decode(image_data)))
+
+    if image.mode == 'RGBA':
+        image = image.convert('RGB')
+
+    filtered_image = apply_preview_filter(image, filter_type)
+
+    buffered = BytesIO()
+    filtered_image.save(buffered, format="JPEG")
+    img_str = base64.b64encode(buffered.getvalue()).decode('utf-8')
+    img_data = f"data:image/jpeg;base64,{img_str}"
+
+    return jsonify({'filtered_image_url': img_data})
 
 
 # This is so that the html page can properly source the image location

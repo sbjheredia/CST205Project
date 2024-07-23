@@ -7,6 +7,8 @@
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
+            let originalImageData = null;
+
             function uploadImage() {
                 var formData = new FormData();
                 var imageFile = document.getElementById("image").files[0];
@@ -21,8 +23,6 @@
                 formData.append("description", description);
                 formData.append("filter", filter);
 
-            
-
                 $.ajax({
                     url: "{{ url_for('upload_image') }}",
                     type: "POST",
@@ -35,8 +35,7 @@
                         document.getElementById("title").value = ""; 
                         document.getElementById("description").value = ""; 
                         document.getElementById("preview").src = ""; 
-
-
+                        originalImageData = null;
                     },
                     error: function (xhr, status, error) {
                         alert("Error uploading image: " + error);
@@ -49,7 +48,9 @@
                 var reader = new FileReader();
 
                 reader.onloadend = function () {
-                    document.getElementById("preview").src = reader.result;
+                    originalImageData = reader.result;
+                    document.getElementById("preview").src = originalImageData;
+                    applyFilter();
                 }
 
                 if (file) {
@@ -58,6 +59,35 @@
                     document.getElementById("preview").src = "";
                 }
             }
+
+            function applyFilter() {
+                var filter = document.getElementById("filter").value;
+
+                if (originalImageData) {
+                    var formData = new FormData();
+                    formData.append("image_data", originalImageData);
+                    formData.append("filter", filter);
+
+                    $.ajax({
+                        url: "{{ url_for('apply_filter') }}",
+                        type: "POST",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                            document.getElementById("preview").src = response.filtered_image_url;
+                        },
+                        error: function (xhr, status, error) {
+                            alert("Error applying filter: " + error);
+                        }
+                    });
+                }
+            }
+            
+            document.addEventListener("DOMContentLoaded", function() {
+                document.getElementById("filter").addEventListener("change", applyFilter);
+            });
+            
         </script>
 
     </head>
