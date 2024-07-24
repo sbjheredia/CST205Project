@@ -125,7 +125,7 @@ def apply_filter(image, filter):
 
 
 def resize(image):
-    desired_height = 300 # change this to mess with the size of images
+    desired_height = 1000 # change this to mess with the size of images
 
     scaling_factor = desired_height / image.height
     width, height = int(image.width * scaling_factor) , int(image.height * scaling_factor)

@@ -9,29 +9,43 @@
             background-color: black;
             color: white;
             font-family: Arial, sans-serif;
+            overflow: hidden; /* Prevents vertical scrollbar */
         }
         .gallery-container {
             display: flex;
-            overflow-x: auto;
+            overflow: hidden;
             white-space: nowrap;
-            padding: 20px;
+            position: relative;
+            width: 100%;
+        }
+        .gallery-track {
+            display: flex;
+            animation: scroll 30s linear infinite;
         }
         .gallery-container img {
-            max-height: 200px;
+            max-height: 50vh; /* 50% of the viewport height */
             margin-right: 20px;
         }
-        .gallery-container img:last-child {
-            margin-right: 0;
+        @keyframes scroll {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
         }
     </style>
 </head>
 <body>
     <h1>Image Gallery</h1>
     <div class="gallery-container">
-        {% for image in images %}
-            <img src="{{ url_for('uploaded_file', filename=image) }}" alt="Gallery Image">
-        {% endfor %}
+        <div class="gallery-track">
+            {% for image in images %}
+                <img src="{{ url_for('uploaded_file', filename=image) }}" alt="Gallery Image">
+            {% endfor %}
+        </div>
     </div>
     <a href="{{ url_for('home') }}"><p>Go back</p></a>
+
 </body>
 </html>
