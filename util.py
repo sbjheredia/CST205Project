@@ -3,7 +3,8 @@ Description: This file contains the function designed to create a Pillow Image
                 that can be shown in the gallery
 '''
 
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
+import textwrap
 
 
 def fit(src_image):
@@ -12,7 +13,7 @@ def fit(src_image):
     
     image = apply_filter(image, src_image.filter)
     image = resize(image)
-    # image = put_text(image, src_image.title, src_image.description)
+    image = put_text(image, src_image.title, src_image.description)
     # image.show()
     return image
 
@@ -123,10 +124,6 @@ def apply_filter(image, filter):
         return filtered_image
 
 
-
-            
-
-
 def resize(image):
     desired_height = 300 # change this to mess with the size of images
 
@@ -135,3 +132,45 @@ def resize(image):
     resized_image = image.resize((width, height), Image.Resampling.LANCZOS)
 
     return resized_image
+
+def put_text(image, title, description):
+    draw = ImageDraw.Draw(image)
+
+    font_desc = ImageFont.load_default()
+    font_title = ImageFont.load_default()
+    
+    # center title
+    title_bbox = draw.textbbox((0, 0), title, font=font_title)
+    title_width = title_bbox[2] - title_bbox[0]
+    title_position = ((image.width - title_width) // 2, 10)
+    
+    # outline text vibe
+    outline_width = 1  # Width of the outline
+    for x_offset in (-outline_width, 0, outline_width):
+        for y_offset in (-outline_width, 0, outline_width):
+            if x_offset != 0 or y_offset != 0:
+                draw.text((title_position[0] + x_offset, title_position[1] + y_offset), title, font=font_title, fill="black")
+    draw.text(title_position, title, font=font_title, fill="white")
+    
+    # Description on bottom with semi-working wrapping
+    max_width = image.width - 20  
+    sample_text = "A" * 10
+    sample_text_bbox = draw.textbbox((0, 0), sample_text, font=font_desc)
+    char_width = (sample_text_bbox[2] - sample_text_bbox[0]) / 10
+    chars_per_line = max_width // char_width
+    
+    wrapped_description = textwrap.wrap(description, width=int(chars_per_line))  
+    line_height = sample_text_bbox[3] - sample_text_bbox[1]  
+    y_text = image.height - 20 - len(wrapped_description) * (line_height + 2) 
+    
+    # outline description vibe
+    for line in wrapped_description:
+        for x_offset in (-outline_width, 0, outline_width):
+            for y_offset in (-outline_width, 0, outline_width):
+                if x_offset != 0 or y_offset != 0:
+                    draw.text((10 + x_offset, y_text + y_offset), line, font=font_desc, fill="black")
+        
+        draw.text((10, y_text), line, font=font_desc, fill="white")
+        y_text += line_height + 2  # move to next line
+    
+    return image
