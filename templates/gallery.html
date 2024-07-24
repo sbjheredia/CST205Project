@@ -1,21 +1,37 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Image Gallery</title>
-    </head>
-    <body style = "background-color: black">
-        <h1>Image Gallery</h1>
-        
-
-        <ul>
-            {% for image in images %}
-                <li><img src="{{ url_for('uploaded_file', filename=image) }}"></img></li>
-            {% endfor %}
-        </ul>
-
-        <a href="{{ url_for('home') }}"><p>Go back</p></a>
-    </body>
-
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Image Gallery</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .gallery-container {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 20px;
+        }
+        .gallery-container img {
+            max-height: 200px;
+            margin-right: 20px;
+        }
+        .gallery-container img:last-child {
+            margin-right: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Image Gallery</h1>
+    <div class="gallery-container">
+        {% for image in images %}
+            <img src="{{ url_for('uploaded_file', filename=image) }}" alt="Gallery Image">
+        {% endfor %}
+    </div>
+    <a href="{{ url_for('home') }}"><p>Go back</p></a>
+</body>
 </html>
