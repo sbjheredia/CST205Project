@@ -11,8 +11,8 @@ def fit(src_image):
     # TODO make the text one
     image = Image.open(src_image.path)
     
-    image = apply_filter(image, src_image.filter)
     image = resize(image)
+    image = apply_filter(image, src_image.filter)
     image = put_text(image, src_image.title, src_image.description)
     # image.show()
     return image
@@ -114,13 +114,15 @@ def apply_filter(image, filter):
         width, height = image.width, image.height
         small_image = Image.new('RGB', (width // 4, height // 4))
 
-        for source_x in range(0, width - 1, 4):
-            for source_y in range(0, height - 1, 4):
+        acting_width = width - (width % 4)
+        acting_height = height - (height % 4)
+
+        for source_x in range(0, acting_width, 4):
+            for source_y in range(0, acting_height, 4):
                 pixel = image.getpixel((source_x, source_y))
                 small_image.putpixel((source_x // 4, source_y // 4), pixel)
 
         filtered_image = small_image.resize((width, height), Image.NEAREST)
-
         return filtered_image
 
 
@@ -136,8 +138,8 @@ def resize(image):
 def put_text(image, title, description):
     draw = ImageDraw.Draw(image)
 
-    font_desc = ImageFont.load_default()
-    font_title = ImageFont.load_default()
+    font_desc = ImageFont.truetype('LibraSans.ttf', 40)
+    font_title = ImageFont.truetype('LibraSans.ttf', 60)
     
     # center title
     title_bbox = draw.textbbox((0, 0), title, font=font_title)
@@ -145,7 +147,7 @@ def put_text(image, title, description):
     title_position = ((image.width - title_width) // 2, 10)
     
     # outline text vibe
-    outline_width = 1  # Width of the outline
+    outline_width = 4  # Width of the outline
     for x_offset in (-outline_width, 0, outline_width):
         for y_offset in (-outline_width, 0, outline_width):
             if x_offset != 0 or y_offset != 0:
