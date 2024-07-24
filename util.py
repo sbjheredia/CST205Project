@@ -56,6 +56,73 @@ def apply_filter(image, filter):
         filtered_image.putdata(pixel_rgb_list)
 
         return filtered_image
+    
+    elif filter == 'brightness':
+        postBrightness = 1.3
+        for p in image.getdata():
+            if int(p[0] * postBrightness) > 255:
+                red = 255
+            else:
+                red = int(p[0] * postBrightness)
+            if int(p[1] * postBrightness) > 255:
+                green = 255
+            else:
+                green = int(p[1] * postBrightness)
+            if int(p[2] * postBrightness) > 255:
+                blue = 255
+            else:
+                blue = int(p[2] * postBrightness)
+
+            pixel_rgb_list.append((red, green, blue))
+        filtered_image.putdata(pixel_rgb_list)
+
+        return filtered_image
+    
+    elif filter == 'contrast':
+        postContrast = 1.1
+        for p in image.getdata():
+            baseline = p[0]
+            if baseline == 0:
+                baseline = 1
+            
+            redRatio = baseline / baseline
+            greenRatio = p[1] / baseline
+            blueRatio = p[2] / baseline
+
+            if int(p[0] * postContrast * redRatio) > 255:
+                red = 255
+            else:
+                red = int(p[0] * postContrast * redRatio)
+
+            if int(p[1] * postContrast * greenRatio) > 255:
+                green = 255
+            else:
+                green = int(p[1] * postContrast * greenRatio)
+
+            if int(p[2] * postContrast * blueRatio) > 255:
+                blue = 255
+            else:
+                blue = int(p[2] * postContrast * blueRatio)
+
+            pixel_rgb_list.append((red, green, blue))
+        filtered_image.putdata(pixel_rgb_list)
+
+        return filtered_image
+    
+    elif filter == 'blur':
+        width, height = image.width, image.height
+        small_image = Image.new('RGB', (width // 4, height // 4))
+
+        for source_x in range(0, width - 1, 4):
+            for source_y in range(0, height - 1, 4):
+                pixel = image.getpixel((source_x, source_y))
+                small_image.putpixel((source_x // 4, source_y // 4), pixel)
+
+        filtered_image = small_image.resize((width, height), Image.NEAREST)
+
+        return filtered_image
+
+
 
             
 

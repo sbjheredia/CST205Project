@@ -41,7 +41,7 @@ def home():
 def gallery():
     gallery_images = []
     for filename in os.listdir(app.config['UPLOAD_FOLDER']):
-        if filename.lower().endswith('.jpg') or filename.lower().endswith('.png'):
+        if filename.lower().endswith('.jpg') or filename.lower().endswith('.jpeg') or filename.lower().endswith('.png'):
             gallery_images.append(filename)
     return render_template('gallery.html', images=gallery_images)
 
@@ -56,7 +56,7 @@ def upload_image():
     if file.filename == '':
         return jsonify({'error': 'No selected file'}), 400
     
-    if file and (file.filename.lower().endswith('.jpg') or file.filename.lower().endswith('.png')):
+    if file and (file.filename.lower().endswith('.jpg') or file.filename.lower().endswith('.jpeg') or file.filename.lower().endswith('.png')):
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
 
         title = request.form['title']
