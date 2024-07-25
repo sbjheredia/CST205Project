@@ -29,11 +29,7 @@
                     contentType: false,
                     success: function (response) {
                         alert("Image uploaded successfully!");
-                        document.getElementById("image").value = ""; // Clear the input field
-                        document.getElementById("title").value = ""; 
-                        document.getElementById("description").value = ""; 
-                        document.getElementById("preview").src = ""; 
-                        originalImageData = null;
+                        clearForm();
                     },
                     error: function (xhr, status, error) {
                         alert("Error uploading image: " + error);
@@ -58,13 +54,26 @@
                 }
             }
 
+            function clearForm() {
+                document.getElementById("image").value = "";
+                document.getElementById("title").value = "";
+                document.getElementById("description").value = "";
+                document.getElementById("filter").value = "none";
+                document.getElementById("preview").src = "";
+                originalImageData = null;
+            }
+
             function applyFilter() {
                 var filter = document.getElementById("filter").value;
+                var title = document.getElementById("title").value;
+                var description = document.getElementById("description").value;
 
                 if (originalImageData) {
                     var formData = new FormData();
                     formData.append("image_data", originalImageData);
                     formData.append("filter", filter);
+                    formData.append("title", title);
+                    formData.append("description", description);
 
                     $.ajax({
                         url: "{{ url_for('apply_filter') }}",
@@ -83,7 +92,10 @@
             }
             
             document.addEventListener("DOMContentLoaded", function() {
+                clearForm();
                 document.getElementById("filter").addEventListener("change", applyFilter);
+                document.getElementById("title").addEventListener("change", applyFilter);
+                document.getElementById("description").addEventListener("change", applyFilter);
             });
             
         </script>

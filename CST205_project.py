@@ -81,14 +81,20 @@ def apply_filter():
 
     image_data = request.form['image_data']
     filter_type = request.form['filter']
+    title = request.form['title']
+    description = request.form['description']
+
+    print(title)
+
+   
 
     image_data = image_data.split(",")[1]
     image = Image.open(BytesIO(base64.b64decode(image_data)))
+    path = BytesIO(base64.b64decode(image_data))
 
-    if image.mode == 'RGBA':
-        image = image.convert('RGB')
+    image_with_text = GalleryImage(path, title, description, filter_type)
 
-    filtered_image = apply_preview_filter(image, filter_type)
+    filtered_image = fit(image_with_text)
 
     buffered = BytesIO()
     filtered_image.save(buffered, format="JPEG")

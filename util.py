@@ -10,11 +10,13 @@ import textwrap
 def fit(src_image):
     # TODO make the text one
     image = Image.open(src_image.path)
+
+    if image.mode == 'RGBA':
+        image = image.convert('RGB')
     
     image = resize(image)
     image = apply_filter(image, src_image.filter)
     image = put_text(image, src_image.title, src_image.description)
-    # image.show()
     return image
 
 # This function includes all the filters, decides what to apply based on argument
