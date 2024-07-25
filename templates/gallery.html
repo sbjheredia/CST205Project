@@ -4,37 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Image Gallery</title>
-    <style>
-        body {
-            background-color: rgb(65, 47, 21);
-            color: white;
-            font-family: Arial, sans-serif;
-            overflow: hidden; /* Prevents vertical scrollbar */
-        }
-        .gallery-container {
-            display: flex;
-            overflow: hidden;
-            white-space: nowrap;
-            position: relative;
-            width: 100%;
-        }
-        .gallery-track {
-            display: flex;
-            animation: scroll 30s linear infinite;
-        }
-        .gallery-container img {
-            max-height: 50vh; /* 50% of the viewport height */
-            margin-right: 20px;
-        }
-        @keyframes scroll {
-            0% {
-                transform: translateX(100%);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <h1>Image Gallery</h1>
@@ -45,7 +15,8 @@
             {% endfor %}
         </div>
     </div>
-    <a href="{{ url_for('home') }}"><p>Go back</p></a>
+    <br>
+    <a href="{{ url_for('home') }}" class = "button" id = "back">Make Another Gallery</a>
 
 </body>
 </html>

@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Image Gallery Home</title>
-
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
             let originalImageData = null;
@@ -92,31 +92,31 @@
     <body>
         <h1>Create your own image gallery! </h1>
 
-        <h1>Upload Images</h1>
+        <h3>We are thrilled to have you here. Our image gallery project allows you to create a personalized photo gallery with ease.</h3>
 
-        <input type="file" id="image" name="image" accept="image/jpeg,image/png" required onchange="previewImage()">
-        <br>
-        <input type="text" id="title" name="title" placeholder="Title">
-        <br>
-        <textarea id="description" name="description" rows="4" cols="50" placeholder="Enter description here..."></textarea>
-        <br>
-        <label for="filter">Choose an image filter:</label>
-        <select id="filter" name="filter">
-            <option value="none">None</option>
-            <option value="grayscale">Grayscale</option>
-            <option value="sepia">Sepia</option>
-            <option value="invert">Invert</option>
-            <option value="brightness">Brightness</option>
-            <option value="contrast">Contrast</option>
-            <option value="blur">Blur</option>
-        </select>
-        <br>
-        <img id="preview" src="" style="max-width: 300px; max-height: 300px; display: block;">
-        <br>
-        <button type="button" onclick="uploadImage()">Upload</button>
+        <div id="uploadform">
+            <h4> Upload Images</h4>
+            You can upload multiple photos, each with unique titles, descriptions, and filters.</p>
+            <input type="file" id="image" name="image" accept="image/jpeg,image/png" required onchange="previewImage()">
+            <input type="text" id="title" name="title" placeholder="Title">
+            <textarea id="description" name="description" rows="4" cols="50" placeholder="Enter description here..."></textarea>
+            <label for="filter">Choose an image filter:</label>
+            <select id="filter" name="filter">
+                <option value="none">None</option>
+                <option value="grayscale">Grayscale</option>
+                <option value="sepia">Sepia</option>
+                <option value="invert">Invert</option>
+                <option value="brightness">Brightness</option>
+                <option value="contrast">Contrast</option>
+                <option value="blur">Blur</option>
+            </select>
+            <p>Ensure everything looks the way you want it before finalizing.</p>
+            <img id="preview" src="" style="max-width: 300px; max-height: 300px; display: block;">
+            <button type="button" onclick="uploadImage()">Upload</button>
+        </div>
 
-
-        <a href="{{ url_for('gallery') }}"><p>Gallery Link</p></a>
+        <br>
+        <a href="{{ url_for('gallery') }}" class = "button">Create your Gallery</a>
     </body>
 
 </html>
