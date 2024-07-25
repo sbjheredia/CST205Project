@@ -108,7 +108,8 @@
 
         <div id="uploadform">
             <h4> Upload Images</h4>
-            You can upload multiple photos, each with unique titles, descriptions, and filters.</p>
+            You can upload multiple photos, each with unique titles, descriptions, and filters.
+            <br>
             <input type="file" id="image" name="image" accept="image/jpeg,image/png" required onchange="previewImage()">
             <input type="text" id="title" name="title" placeholder="Title">
             <textarea id="description" name="description" rows="4" cols="50" placeholder="Enter description here..."></textarea>
@@ -122,7 +123,7 @@
                 <option value="contrast">Contrast</option>
                 <option value="blur">Blur</option>
             </select>
-            <p>Ensure everything looks the way you want it before finalizing.</p>
+            <p>Ensure everything looks the way you want it before uploading.</p>
             <img id="preview" src="" style="max-width: 300px; max-height: 300px; display: block;">
             <button type="button" onclick="uploadImage()">Upload</button>
         </div>
