@@ -84,10 +84,6 @@ def apply_filter():
     title = request.form['title']
     description = request.form['description']
 
-    print(title)
-
-   
-
     image_data = image_data.split(",")[1]
     image = Image.open(BytesIO(base64.b64decode(image_data)))
     path = BytesIO(base64.b64decode(image_data))
