@@ -1,14 +1,14 @@
 '''
 Description: This file contains the function designed to create a Pillow Image
-                that can be shown in the gallery
+                that can be shown in the gallery, it contains functions to add different filters,
+                resize images, and put text on different images 
 '''
 
 from PIL import Image, ImageDraw, ImageFont
 import textwrap
 
-
+# This function applies a series of image manipulations, JH
 def fit(src_image):
-    # TODO make the text one
     image = Image.open(src_image.path)
 
     if image.mode == 'RGBA':
@@ -19,7 +19,7 @@ def fit(src_image):
     image = put_text(image, src_image.title, src_image.description)
     return image
 
-# This function includes all the filters, decides what to apply based on argument
+# This function includes all the filters, decides what to apply based on argument, JH, FL, KS
 def apply_filter(image, filter):
     pixel_rgb_list = []
     filtered_image = Image.new('RGB', (image.width, image.height))
@@ -127,7 +127,7 @@ def apply_filter(image, filter):
         filtered_image = small_image.resize((width, height), Image.NEAREST)
         return filtered_image
 
-
+#JH, this resizes the image 
 def resize(image):
     desired_height = 1000 # change this to mess with the size of images
 
@@ -137,6 +137,7 @@ def resize(image):
 
     return resized_image
 
+#KS, this puts text on the image with an outline, so its easier to read on light and dark photos
 def put_text(image, title, description):
     draw = ImageDraw.Draw(image)
 
@@ -150,7 +151,7 @@ def put_text(image, title, description):
     title_position = ((image.width - title_width) // 2, 10)
     
     # outline text vibe
-    outline_width = 4  # Width of the outline
+    outline_width = 4  
     for x_offset in (-outline_width, 0, outline_width):
         for y_offset in (-outline_width, 0, outline_width):
             if x_offset != 0 or y_offset != 0:
@@ -176,6 +177,6 @@ def put_text(image, title, description):
                     draw.text((10 + x_offset, y_text + y_offset), line, font=font_desc, fill="black")
         
         draw.text((10, y_text), line, font=font_desc, fill="white")
-        y_text += line_height + 2  # move to next line
+        y_text += line_height + 2
     
     return image

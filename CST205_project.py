@@ -1,8 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory, jsonify
+from flask import Flask, render_template, request, send_from_directory, jsonify
 from flask_bootstrap import Bootstrap
 from PIL import Image
 from util import fit
-from util import apply_filter as apply_preview_filter
 import os
 import shutil
 import base64
@@ -11,6 +10,7 @@ from io import BytesIO
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 
+#This is where the images are uploaded to 
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -18,7 +18,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 gallery_images = []
 
 
-# This function makes sure the uploads folder is primed
+# This function makes sure the uploads folder is primed JH 
 def initialize_upload_folder():
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
@@ -36,7 +36,7 @@ def home():
     return render_template('home.html')
 
 
-# Url for gallery. Renders gallery.html and gives it a list of images
+# Url for gallery. Renders gallery.html and gives it a list of gallery images from uploads folder, JH
 @app.route('/gallery')
 def gallery():
     gallery_images = []
@@ -46,7 +46,8 @@ def gallery():
     return render_template('gallery.html', images=gallery_images)
 
 
-# This handles the file upload system
+# This handles the file upload system, JH, FL, KS
+# uses data from form on home.html 
 @app.route('/upload_image', methods=['POST'])
 def upload_image():
     if 'image' not in request.files:
@@ -73,7 +74,7 @@ def upload_image():
         return jsonify({'error': 'Invalid file type'}), 400
     
 
-# This deals with applying filters to the preview image
+# This deals with applying filters to the preview image, JH
 @app.route('/apply_filter', methods=['POST'])
 def apply_filter():
     if 'image_data' not in request.form:
@@ -85,7 +86,6 @@ def apply_filter():
     description = request.form['description']
 
     image_data = image_data.split(",")[1]
-    image = Image.open(BytesIO(base64.b64decode(image_data)))
     path = BytesIO(base64.b64decode(image_data))
 
     image_with_text = GalleryImage(path, title, description, filter_type)
@@ -100,7 +100,7 @@ def apply_filter():
     return jsonify({'filtered_image_url': img_data})
 
 
-# This is so that the html page can properly source the image location
+# This is so that the html page can properly source the image location, KS, JH
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)

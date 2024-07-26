@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Image Gallery</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Otter Art Gallery</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
     <h1>Otter Art Exhibit</h1>
@@ -21,15 +21,16 @@
     <a href="{{ url_for('home') }}" class="button" id="back">Make Another Gallery</a>
     <br>
     <audio id="background-audio">
-        <source src="{{ url_for('static', filename='nocturne.mp3') }}" type="audio/mpeg">
+        <source src="{{ url_for('static', filename='music/nocturne.mp3') }}" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 
     <script>
+        // music player JH 
         document.getElementById('play-button').addEventListener('click', function() {
             var audio = document.getElementById('background-audio');
             if (audio.paused) {
-                audio.currentTime = 0; // Restart the audio if needed
+                audio.currentTime = 0;
                 audio.play();
                 document.getElementById('play-button').innerText = 'Pause Music';
             } else {

@@ -4,11 +4,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Image Gallery Home</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
+            // function that sends form data to upload image route, JH
             let originalImageData = null;
-
             function uploadImage() {
                 var formData = new FormData();
                 var imageFile = document.getElementById("image").files[0];
@@ -37,6 +37,7 @@
                 });
             }
 
+            // allows user to preview image on home page,  KS
             function previewImage() {
                 var file = document.getElementById("image").files[0];
                 var reader = new FileReader();
@@ -62,7 +63,7 @@
                 document.getElementById("preview").src = "";
                 originalImageData = null;
             }
-
+            // applied filter to preview, JH
             function applyFilter() {
                 var filter = document.getElementById("filter").value;
                 var title = document.getElementById("title").value;
@@ -102,13 +103,14 @@
 
     </head>
     <body>
+
         <h1>Create your own image gallery! </h1>
 
         <h3>We are thrilled to have you here. Our image gallery project allows you to create a personalized photo gallery with ease.</h3>
-
+<!-- form elements for photo details KS -->
         <div id="uploadform">
             <h4> Upload Images</h4>
-            You can upload multiple photos, each with unique titles, descriptions, and filters.
+            You can upload multiple distinct photos, each with unique titles, descriptions, and filters.
             <br>
             <input type="file" id="image" name="image" accept="image/jpeg,image/png" required onchange="previewImage()">
             <input type="text" id="title" name="title" placeholder="Title">
