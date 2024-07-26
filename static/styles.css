@@ -34,10 +34,12 @@ h3 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 10px;
 }
+
 .gallery-track {
     display: flex;
     animation: scroll 30s linear infinite;
 }
+
 .gallery-container img {
     max-height: 50vh; /* 50% of the viewport height */
     margin: 10px;
@@ -131,8 +133,10 @@ h3 {
     background-color: #0056b3;
     text-align: center;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 10px;
+    border: none;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 10px;
 }
 
 .button:hover {
@@ -145,13 +149,4 @@ textarea::placeholder {
     font-family: 'Open Sans', Arial, sans-serif;
     font-size: 14px;
     color: #888;
-}
-
-
-#back{
-    background-color: #0056b3; 
-}
-
-#back:hover {
-    background-color: #004494;
 }
