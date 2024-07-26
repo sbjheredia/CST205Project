@@ -140,8 +140,9 @@ def resize(image):
 def put_text(image, title, description):
     draw = ImageDraw.Draw(image)
 
-    font_desc = ImageFont.truetype('LibraSans.ttf', 40)
-    font_title = ImageFont.truetype('LibraSans.ttf', 60)
+    font_path = 'static/fonts/LibraSans.ttf'
+    font_desc = ImageFont.truetype(font_path, 40)
+    font_title = ImageFont.truetype(font_path, 60)
     
     # center title
     title_bbox = draw.textbbox((0, 0), title, font=font_title)
