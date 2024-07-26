@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, send_from_directory, jsonify
 from flask_bootstrap import Bootstrap
-from PIL import Image
 from util import fit
 import os
 import shutil
@@ -31,8 +30,6 @@ def initialize_upload_folder():
 @app.route('/')
 def home():
     initialize_upload_folder()
-    gallery_images = []
-
     return render_template('home.html')
 
 
